@@ -1,0 +1,1903 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clef moderation results</title>
+<style>
+:root{--bg:#f6f6f3;--card:#fff;--ink:#1d1d1b;--muted:#6b6b66;--line:#e3e2dc;
+  --ok:#2f7d4f;--ok-bg:#e6f3ea;--tox:#b3261e;--tox-bg:#fbe7e5;--spam:#a05a00;--spam-bg:#fdf0dc;--warn:#6a3fb5}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--card:#21211f;--ink:#ecebe6;--muted:#9a9993;--line:#34332f;
+  --ok:#6fcf93;--ok-bg:#1d3326;--tox:#ff8a80;--tox-bg:#3a1f1d;--spam:#ffb74d;--spam-bg:#3a2c16;--warn:#b79cff}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:24px 16px 80px}
+h1{font-size:22px;margin:0 0 4px} .sub{color:var(--muted);margin:0 0 16px}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px}
+.stat b{font-size:20px;display:block}
+.controls{position:sticky;top:0;z-index:2;background:var(--bg);padding:10px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--line);margin-bottom:14px}
+button,select,input[type=search]{font:inherit;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
+button.on{outline:2px solid var(--ink)} input[type=search]{flex:1;min-width:160px;cursor:text}
+.card{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.card.acceptable{border-left-color:var(--ok)} .card.toxic{border-left-color:var(--tox)} .card.spam{border-left-color:var(--spam)}
+.card.flagged{box-shadow:0 0 0 2px var(--warn)}
+header{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.id{font-weight:700;font-variant-numeric:tabular-nums}
+.badge{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:999px}
+.badge.acceptable{color:var(--ok);background:var(--ok-bg)} .badge.toxic{color:var(--tox);background:var(--tox-bg)} .badge.spam{color:var(--spam);background:var(--spam-bg)}
+.conf{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums} .low .conf{color:var(--warn);font-weight:700}
+.meta{font-size:13px;color:var(--muted);margin-left:auto}
+.comment{margin:8px 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.bars{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 14px}
+.bar{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.bl{width:68px} .bv{width:32px;text-align:right;font-variant-numeric:tabular-nums}
+.track{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.fill{display:block;height:100%} .fill.acceptable{background:var(--ok)} .fill.toxic{background:var(--tox)} .fill.spam{background:var(--spam)}
+.review{margin-top:8px;font-size:14px} .review summary{cursor:pointer;color:var(--muted)}
+.review label{margin-right:14px;display:inline-flex;gap:6px;align-items:center;margin-top:6px}
+.review textarea{display:block;width:100%;min-height:52px;margin-top:6px;font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+@media (max-width:640px){.bars{grid-template-columns:1fr} .meta{margin-left:0;width:100%}}
+</style></head><body><div class="wrap">
+<h1>Clef moderation results</h1>
+<p class="sub">100 comments from <code>comments.json</code> · model <code>clef-flash</code> · criteria v1 · confidence &lt; 0.5 marked <b style="color:var(--warn)">check</b></p>
+<div class="stats">
+  <div class="stat"><b style="color:var(--ok)">76</b>acceptable</div>
+  <div class="stat"><b style="color:var(--tox)">10</b>toxic</div>
+  <div class="stat"><b style="color:var(--spam)">14</b>spam</div>
+  <div class="stat"><b style="color:var(--warn)">2</b>low confidence</div>
+</div>
+<div class="controls">
+  <button data-f="all" class="on">All</button><button data-f="acceptable">Acceptable</button>
+  <button data-f="toxic">Toxic</button><button data-f="spam">Spam</button>
+  <button data-f="low">Low confidence</button><button data-f="flagged">My flags</button>
+  <select id="sort"><option value="id">Sort: id</option><option value="conf">Sort: least confident first</option></select>
+  <input type="search" id="q" placeholder="Search text or author">
+  <button id="export" title="Copy your flags as Markdown">Export my flags</button>
+</div>
+<main id="list">
+<article class="card acceptable" data-id="1"
+  data-label="acceptable" data-conf="0.8275" data-text="ma&#x27;am, is it okay if we use claude for the frontend and codex for the backend logic, or should the whole artifact be built with one tool? aditya kulkarni">
+  <header>
+    <span class="id">#1</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.83</span>
+    <span class="meta">Aditya Kulkarni · Doubts · 2026-10-12 09:14</span>
+  </header>
+  <p class="comment">Ma&#x27;am, is it okay if we use Claude for the frontend and Codex for the backend logic, or should the whole artifact be built with one tool?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.0%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.0%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.0%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="2"
+  data-label="acceptable" data-conf="0.7622" data-text="submitted my artifact: a timetable clash checker for our dept. claude made the ui in like 10 mins but i spent 2 hours fixing the csv parsing. link is in my submission. sneha iyer">
+  <header>
+    <span class="id">#2</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.76</span>
+    <span class="meta">Sneha Iyer · Share your artifacts · 2026-10-12 10:02</span>
+  </header>
+  <p class="comment">Submitted my artifact: a timetable clash checker for our dept. Claude made the UI in like 10 mins but I spent 2 hours fixing the CSV parsing. Link is in my submission.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:91.5%"></span></span><span class="bv">0.92</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:4.1%"></span></span><span class="bv">0.04</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:4.3%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card spam" data-id="3"
+  data-label="spam" data-conf="0.9465" data-text="🔥🔥 get your assignments done by experts 🔥🔥 claude/codex/ml projects, plagiarism free, 100% marks guaranteed. whatsapp +91 90000 12345. special discount for cs307 students!! assignmentguru_99">
+  <header>
+    <span class="id">#3</span>
+    <span class="badge spam">spam</span>
+    <span class="conf" title="Clef confidence">conf 0.95</span>
+    <span class="meta">AssignmentGuru_99 · General · 2026-10-12 10:40</span>
+  </header>
+  <p class="comment">🔥🔥 GET YOUR ASSIGNMENTS DONE BY EXPERTS 🔥🔥 Claude/Codex/ML projects, plagiarism free, 100% marks guaranteed. WhatsApp +91 90000 12345. Special discount for CS307 students!!</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:0.9%"></span></span><span class="bv">0.01</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:0.9%"></span></span><span class="bv">0.01</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:98.2%"></span></span><span class="bv">0.98</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="4"
+  data-label="acceptable" data-conf="0.8428" data-text="does the reflection doc need to include the prompts we used? mine is around 40 prompts, that seems like too much to paste. pooja nair">
+  <header>
+    <span class="id">#4</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.84</span>
+    <span class="meta">Pooja Nair · Doubts · 2026-10-12 11:25</span>
+  </header>
+  <p class="comment">Does the reflection doc need to include the prompts we used? Mine is around 40 prompts, that seems like too much to paste.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.5%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.9%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.6%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="5"
+  data-label="acceptable" data-conf="0.8281" data-text="@rohit your expense splitter is really clean. one suggestion: there&#x27;s a rounding error when splitting ₹100 three ways, it shows 33.33 x 3 = 99.99. harsh agarwal">
+  <header>
+    <span class="id">#5</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.83</span>
+    <span class="meta">Harsh Agarwal · Share your artifacts · 2026-10-12 12:10</span>
+  </header>
+  <p class="comment">@Rohit your expense splitter is really clean. One suggestion: there&#x27;s a rounding error when splitting ₹100 three ways, it shows 33.33 x 3 = 99.99.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.0%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.5%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.5%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card toxic" data-id="6"
+  data-label="toxic" data-conf="0.6956" data-text="rohit&#x27;s project is copy-paste from github, everyone knows. shameless guy, and sir still gives him marks. pathetic. vikram singh">
+  <header>
+    <span class="id">#6</span>
+    <span class="badge toxic">toxic</span>
+    <span class="conf" title="Clef confidence">conf 0.70</span>
+    <span class="meta">Vikram Singh · Share your artifacts · 2026-10-12 12:31</span>
+  </header>
+  <p class="comment">Rohit&#x27;s project is copy-paste from GitHub, everyone knows. Shameless guy, and sir still gives him marks. Pathetic.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:7.1%"></span></span><span class="bv">0.07</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:88.9%"></span></span><span class="bv">0.89</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:4.0%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="7"
+  data-label="acceptable" data-conf="0.8060" data-text="bhai kisi ko codex ka access mila? my college email isn&#x27;t working for the student plan. mohd. faizan">
+  <header>
+    <span class="id">#7</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.81</span>
+    <span class="meta">Mohd. Faizan · Doubts · 2026-10-12 13:05</span>
+  </header>
+  <p class="comment">Bhai kisi ko Codex ka access mila? My college email isn&#x27;t working for the student plan.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.2%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.1%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.7%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="8"
+  data-label="acceptable" data-conf="0.8432" data-text="ma&#x27;am, is a deadline extension possible? our hostel wifi was down from thursday night till saturday, the warden can confirm. shreya patil">
+  <header>
+    <span class="id">#8</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.84</span>
+    <span class="meta">Shreya Patil · Submission &amp; grading · 2026-10-12 14:47</span>
+  </header>
+  <p class="comment">Ma&#x27;am, is a deadline extension possible? Our hostel wifi was down from Thursday night till Saturday, the warden can confirm.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.5%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.9%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.5%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="9"
+  data-label="acceptable" data-conf="0.8644" data-text="i found that claude kept adding features i didn&#x27;t ask for. telling it &quot;do only x, nothing else&quot; at the start helped a lot. vivek menon">
+  <header>
+    <span class="id">#9</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.86</span>
+    <span class="meta">Vivek Menon · Doubts · 2026-10-12 15:20</span>
+  </header>
+  <p class="comment">I found that Claude kept adding features I didn&#x27;t ask for. Telling it &quot;do only X, nothing else&quot; at the start helped a lot.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:95.3%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.3%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.4%"></span></span><span class="bv">0.02</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card spam" data-id="10"
+  data-label="spam" data-conf="0.8693" data-text="join our telegram group for free claude pro &amp; chatgpt plus accounts 🤑 only ₹199 lifetime. t.me/aitoolsdeal_india (limited slots) free ai deals">
+  <header>
+    <span class="id">#10</span>
+    <span class="badge spam">spam</span>
+    <span class="conf" title="Clef confidence">conf 0.87</span>
+    <span class="meta">Free AI Deals · General · 2026-10-12 16:02</span>
+  </header>
+  <p class="comment">Join our Telegram group for FREE Claude Pro &amp; ChatGPT Plus accounts 🤑 only ₹199 lifetime. t.me/aitoolsdeal_india (limited slots)</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:2.4%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.2%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:95.5%"></span></span><span class="bv">0.95</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="11"
+  data-label="acceptable" data-conf="0.8026" data-text="can we deploy on vercel or does it have to run locally? mine needs an api key and i don&#x27;t want to expose it publicly. karthik reddy">
+  <header>
+    <span class="id">#11</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.80</span>
+    <span class="meta">Karthik Reddy · Doubts · 2026-10-12 17:33</span>
+  </header>
+  <p class="comment">Can we deploy on Vercel or does it have to run locally? Mine needs an API key and I don&#x27;t want to expose it publicly.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.1%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.6%"></span></span><span class="bv">0.04</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.4%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="12"
+  data-label="acceptable" data-conf="0.8201" data-text="good point sneha made in the lab: if the artifact stores data in localstorage, mention it in the reflection, since the data stays only in your browser. ananya joshi">
+  <header>
+    <span class="id">#12</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.82</span>
+    <span class="meta">Ananya Joshi · Doubts · 2026-10-12 18:15</span>
+  </header>
+  <p class="comment">Good point Sneha made in the lab: if the artifact stores data in localStorage, mention it in the reflection, since the data stays only in your browser.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.7%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.1%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.2%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card toxic" data-id="13"
+  data-label="toxic" data-conf="0.7066" data-text="seriously who asks these dumb questions? read the assignment pdf before posting, idiots. wasting everyone&#x27;s time. saurabh yadav">
+  <header>
+    <span class="id">#13</span>
+    <span class="badge toxic">toxic</span>
+    <span class="conf" title="Clef confidence">conf 0.71</span>
+    <span class="meta">Saurabh Yadav · Doubts · 2026-10-12 19:02</span>
+  </header>
+  <p class="comment">Seriously who asks these dumb questions? Read the assignment PDF before posting, idiots. Wasting everyone&#x27;s time.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:7.0%"></span></span><span class="bv">0.07</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:89.3%"></span></span><span class="bv">0.89</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.7%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="14"
+  data-label="acceptable" data-conf="0.8387" data-text="honestly i think this assignment is too easy for 15 marks, the ai does 80% of the work. grading should focus more on the reflection part. nikhil bansal">
+  <header>
+    <span class="id">#14</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.84</span>
+    <span class="meta">Nikhil Bansal · Submission &amp; grading · 2026-10-12 20:40</span>
+  </header>
+  <p class="comment">Honestly I think this assignment is too easy for 15 marks, the AI does 80% of the work. Grading should focus more on the reflection part.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.4%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.7%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.9%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="15"
+  data-label="acceptable" data-conf="0.8201" data-text="my quiz app for gate prep is up. feedback welcome, especially on the scoring logic — not sure the negative marking works right. ankit sharma">
+  <header>
+    <span class="id">#15</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.82</span>
+    <span class="meta">Ankit Sharma · Share your artifacts · 2026-10-13 08:55</span>
+  </header>
+  <p class="comment">My quiz app for GATE prep is up. Feedback welcome, especially on the scoring logic — not sure the negative marking works right.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.7%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.0%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:4.3%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="16"
+  data-label="acceptable" data-conf="0.8484" data-text="tried it ankit, the negative marking subtracts 1/3 even for unattempted questions. check the condition where you compute the score. meera krishnan">
+  <header>
+    <span class="id">#16</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.85</span>
+    <span class="meta">Meera Krishnan · Share your artifacts · 2026-10-13 09:30</span>
+  </header>
+  <p class="comment">Tried it Ankit, the negative marking subtracts 1/3 even for unattempted questions. Check the condition where you compute the score.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.7%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.4%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.9%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card spam" data-id="17"
+  data-label="spam" data-conf="0.8760" data-text="earn ₹5000 daily from home using ai tools!! no investment. students also eligible. dm me or visit earnwithai-india.in ritu verma">
+  <header>
+    <span class="id">#17</span>
+    <span class="badge spam">spam</span>
+    <span class="conf" title="Clef confidence">conf 0.88</span>
+    <span class="meta">Ritu Verma · General · 2026-10-13 10:12</span>
+  </header>
+  <p class="comment">Earn ₹5000 daily from home using AI tools!! No investment. Students also eligible. DM me or visit earnwithai-india.in</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:2.1%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.1%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:95.7%"></span></span><span class="bv">0.96</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="18"
+  data-label="acceptable" data-conf="0.8268" data-text="sir, the rubric says &quot;originality&quot; — does a to-do app count as original if we add a feature like voice input? tanvi gupta">
+  <header>
+    <span class="id">#18</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.83</span>
+    <span class="meta">Tanvi Gupta · Submission &amp; grading · 2026-10-13 11:05</span>
+  </header>
+  <p class="comment">Sir, the rubric says &quot;originality&quot; — does a to-do app count as original if we add a feature like voice input?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.0%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.1%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.9%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card toxic" data-id="19"
+  data-label="toxic" data-conf="0.5965" data-text="bro your app looks like it was made by a 5th class kid lol. delete it and save us the embarrassment 🤡 rahul chauhan">
+  <header>
+    <span class="id">#19</span>
+    <span class="badge toxic">toxic</span>
+    <span class="conf" title="Clef confidence">conf 0.60</span>
+    <span class="meta">Rahul Chauhan · Share your artifacts · 2026-10-13 11:48</span>
+  </header>
+  <p class="comment">Bro your app looks like it was made by a 5th class kid lol. Delete it and save us the embarrassment 🤡</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:10.8%"></span></span><span class="bv">0.11</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:84.7%"></span></span><span class="bv">0.85</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:4.5%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="20"
+  data-label="acceptable" data-conf="0.8866" data-text="thank you ma&#x27;am for the extra session on prompting yesterday. the bit about giving examples of the output format was super useful. ishita banerjee">
+  <header>
+    <span class="id">#20</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.89</span>
+    <span class="meta">Ishita Banerjee · General · 2026-10-13 12:20</span>
+  </header>
+  <p class="comment">Thank you ma&#x27;am for the extra session on prompting yesterday. The bit about giving examples of the output format was super useful.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:96.1%"></span></span><span class="bv">0.96</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:1.5%"></span></span><span class="bv">0.01</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.4%"></span></span><span class="bv">0.02</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="21"
+  data-label="acceptable" data-conf="0.8462" data-text="codex wrote my tests but half of them were testing the wrong thing. lesson learned: read the generated tests, don&#x27;t just see green ✅ and move on. siddharth rao">
+  <header>
+    <span class="id">#21</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.85</span>
+    <span class="meta">Siddharth Rao · Doubts · 2026-10-13 13:44</span>
+  </header>
+  <p class="comment">Codex wrote my tests but half of them were testing the wrong thing. Lesson learned: read the generated tests, don&#x27;t just see green ✅ and move on.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.7%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.6%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.7%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="22"
+  data-label="acceptable" data-conf="0.8277" data-text="is anyone else getting &quot;rate limit exceeded&quot; on the free tier? it&#x27;s been blocking me since afternoon. aman tiwari">
+  <header>
+    <span class="id">#22</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.83</span>
+    <span class="meta">Aman Tiwari · Doubts · 2026-10-13 15:10</span>
+  </header>
+  <p class="comment">Is anyone else getting &quot;rate limit exceeded&quot; on the free tier? It&#x27;s been blocking me since afternoon.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.0%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.1%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.9%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="23"
+  data-label="acceptable" data-conf="0.7805" data-text="yes same, try after midnight, it reset for me around 12:30. pooja nair">
+  <header>
+    <span class="id">#23</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.78</span>
+    <span class="meta">Pooja Nair · Doubts · 2026-10-13 15:26</span>
+  </header>
+  <p class="comment">Yes same, try after midnight, it reset for me around 12:30.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:92.2%"></span></span><span class="bv">0.92</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.4%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:4.4%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card spam" data-id="24"
+  data-label="spam" data-conf="0.7456" data-text="subscribe to my youtube channel &quot;techwithraju&quot; for the full solution of cs307 assignment 3 step by step!! link in bio. like share subscribe 🙏🙏 raju tech">
+  <header>
+    <span class="id">#24</span>
+    <span class="badge spam">spam</span>
+    <span class="conf" title="Clef confidence">conf 0.75</span>
+    <span class="meta">Raju Tech · General · 2026-10-13 16:03</span>
+  </header>
+  <p class="comment">Subscribe to my YouTube channel &quot;TechWithRaju&quot; for the full solution of CS307 assignment 3 step by step!! Link in bio. Like share subscribe 🙏🙏</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:5.6%"></span></span><span class="bv">0.06</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.6%"></span></span><span class="bv">0.04</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:90.9%"></span></span><span class="bv">0.91</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="25"
+  data-label="acceptable" data-conf="0.8361" data-text="our group made a canteen menu voting app. problem: anyone can vote 100 times by refreshing. any simple way to stop this without a login? kavya pillai">
+  <header>
+    <span class="id">#25</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.84</span>
+    <span class="meta">Kavya Pillai · Share your artifacts · 2026-10-13 17:22</span>
+  </header>
+  <p class="comment">Our group made a canteen menu voting app. Problem: anyone can vote 100 times by refreshing. Any simple way to stop this without a login?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.3%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.6%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.1%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="26"
+  data-label="acceptable" data-conf="0.8340" data-text="use a localstorage flag for basic prevention, it&#x27;s not secure but for a class demo it&#x27;s fine. or ask for roll number and check duplicates. harsh agarwal">
+  <header>
+    <span class="id">#26</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.83</span>
+    <span class="meta">Harsh Agarwal · Share your artifacts · 2026-10-13 17:40</span>
+  </header>
+  <p class="comment">Use a localStorage flag for basic prevention, it&#x27;s not secure but for a class demo it&#x27;s fine. Or ask for roll number and check duplicates.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.2%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.4%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.4%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="27"
+  data-label="acceptable" data-conf="0.7186" data-text="girls in this class only get good marks because sir is soft on them. ishita&#x27;s project is average at best. deepak mishra">
+  <header>
+    <span class="id">#27</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.72</span>
+    <span class="meta">Deepak Mishra · Submission &amp; grading · 2026-10-13 19:05</span>
+  </header>
+  <p class="comment">Girls in this class only get good marks because sir is soft on them. Ishita&#x27;s project is average at best.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:89.8%"></span></span><span class="bv">0.90</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:7.2%"></span></span><span class="bv">0.07</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.0%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="28"
+  data-label="acceptable" data-conf="0.7083" data-text="sharing a tip: ask claude to explain the code it wrote line by line before you submit. viva mein pakde jaoge otherwise 😅 omkar jadhav">
+  <header>
+    <span class="id">#28</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.71</span>
+    <span class="meta">Omkar Jadhav · Doubts · 2026-10-13 20:30</span>
+  </header>
+  <p class="comment">Sharing a tip: ask Claude to explain the code it wrote line by line before you submit. Viva mein pakde jaoge otherwise 😅</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:89.4%"></span></span><span class="bv">0.89</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.1%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:7.5%"></span></span><span class="bv">0.07</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="29"
+  data-label="acceptable" data-conf="0.8661" data-text="is the viva individual or group-wise? some of us did most of the work and others just watched. prateek saxena">
+  <header>
+    <span class="id">#29</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.87</span>
+    <span class="meta">Prateek Saxena · Submission &amp; grading · 2026-10-14 09:02</span>
+  </header>
+  <p class="comment">Is the viva individual or group-wise? Some of us did most of the work and others just watched.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:95.4%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.4%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.2%"></span></span><span class="bv">0.02</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="30"
+  data-label="acceptable" data-conf="0.8668" data-text="^ this. in my group one member didn&#x27;t even open the repo. how do we report this without drama? ritika sen">
+  <header>
+    <span class="id">#30</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.87</span>
+    <span class="meta">Ritika Sen · Submission &amp; grading · 2026-10-14 09:20</span>
+  </header>
+  <p class="comment">^ this. In my group one member didn&#x27;t even open the repo. How do we report this without drama?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:95.4%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.2%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.4%"></span></span><span class="bv">0.02</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card toxic" data-id="31"
+  data-label="toxic" data-conf="0.7664" data-text="@karan we all know you&#x27;re the one who didn&#x27;t open the repo. useless fellow, always free-riding. get lost. rahul chauhan">
+  <header>
+    <span class="id">#31</span>
+    <span class="badge toxic">toxic</span>
+    <span class="conf" title="Clef confidence">conf 0.77</span>
+    <span class="meta">Rahul Chauhan · Submission &amp; grading · 2026-10-14 09:41</span>
+  </header>
+  <p class="comment">@Karan we all know you&#x27;re the one who didn&#x27;t open the repo. Useless fellow, always free-riding. Get lost.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:5.2%"></span></span><span class="bv">0.05</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:91.7%"></span></span><span class="bv">0.92</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.1%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="32"
+  data-label="acceptable" data-conf="0.8378" data-text="can we use gemini or other models, or strictly claude/codex? the assignment title says claude/codex but the pdf says &quot;any ai coding assistant&quot;. aditya kulkarni">
+  <header>
+    <span class="id">#32</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.84</span>
+    <span class="meta">Aditya Kulkarni · Doubts · 2026-10-14 10:15</span>
+  </header>
+  <p class="comment">Can we use Gemini or other models, or strictly Claude/Codex? The assignment title says Claude/Codex but the PDF says &quot;any AI coding assistant&quot;.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.3%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.8%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.8%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card spam" data-id="33"
+  data-label="spam" data-conf="0.8554" data-text="urgent: cs307 end-sem question paper leaked!! get it before it&#x27;s removed. ₹499 only. pay on upi 9000012345@upi and send screenshot. exam_updates_2026">
+  <header>
+    <span class="id">#33</span>
+    <span class="badge spam">spam</span>
+    <span class="conf" title="Clef confidence">conf 0.86</span>
+    <span class="meta">exam_updates_2026 · General · 2026-10-14 11:00</span>
+  </header>
+  <p class="comment">URGENT: CS307 end-sem question paper leaked!! Get it before it&#x27;s removed. ₹499 only. Pay on UPI 9000012345@upi and send screenshot.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:2.8%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.2%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:95.0%"></span></span><span class="bv">0.95</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="34"
+  data-label="acceptable" data-conf="0.8397" data-text="sir, the submission link on moodle is showing &quot;closed&quot; even though the deadline is tonight 11:59 pm. shreya patil">
+  <header>
+    <span class="id">#34</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.84</span>
+    <span class="meta">Shreya Patil · Submission &amp; grading · 2026-10-14 21:12</span>
+  </header>
+  <p class="comment">Sir, the submission link on Moodle is showing &quot;closed&quot; even though the deadline is tonight 11:59 PM.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.4%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.9%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.7%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="35"
+  data-label="acceptable" data-conf="0.7882" data-text="it&#x27;s open now, please refresh. it was a timezone setting issue on the course page. rakesh m (ta)">
+  <header>
+    <span class="id">#35</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.79</span>
+    <span class="meta">Rakesh M (TA) · Submission &amp; grading · 2026-10-14 21:30</span>
+  </header>
+  <p class="comment">It&#x27;s open now, please refresh. It was a timezone setting issue on the course page.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:92.5%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.0%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:4.5%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="36"
+  data-label="acceptable" data-conf="0.8329" data-text="my artifact helps my mom track her tailoring orders. she actually uses it now! never thought an assignment would be useful at home. divya hegde">
+  <header>
+    <span class="id">#36</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.83</span>
+    <span class="meta">Divya Hegde · Share your artifacts · 2026-10-15 08:40</span>
+  </header>
+  <p class="comment">My artifact helps my mom track her tailoring orders. She actually uses it now! Never thought an assignment would be useful at home.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.2%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.1%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.7%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="37"
+  data-label="acceptable" data-conf="0.8219" data-text="that&#x27;s amazing divya 👏 maybe add a whatsapp reminder for due dates? could be a nice extension. ananya joshi">
+  <header>
+    <span class="id">#37</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.82</span>
+    <span class="meta">Ananya Joshi · Share your artifacts · 2026-10-15 09:05</span>
+  </header>
+  <p class="comment">That&#x27;s amazing Divya 👏 Maybe add a WhatsApp reminder for due dates? Could be a nice extension.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.8%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.3%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:4.0%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="38"
+  data-label="acceptable" data-conf="0.8160" data-text="doubt: if claude generates code that&#x27;s similar to some open-source project, is that plagiarism? how do we cite it? kunal bhatia">
+  <header>
+    <span class="id">#38</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.82</span>
+    <span class="meta">Kunal Bhatia · Doubts · 2026-10-15 10:18</span>
+  </header>
+  <p class="comment">Doubt: if Claude generates code that&#x27;s similar to some open-source project, is that plagiarism? How do we cite it?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.6%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.2%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.2%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="39"
+  data-label="acceptable" data-conf="0.8490" data-text="good question. mention the tool and your prompts in the reflection, and if you knowingly used a library or snippet, cite it like any other source. dr. lakshmi narayanan">
+  <header>
+    <span class="id">#39</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.85</span>
+    <span class="meta">Dr. Lakshmi Narayanan · Doubts · 2026-10-15 11:02</span>
+  </header>
+  <p class="comment">Good question. Mention the tool and your prompts in the reflection, and if you knowingly used a library or snippet, cite it like any other source.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.8%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.3%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.9%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card spam" data-id="40"
+  data-label="spam" data-conf="0.8729" data-text="cheap laptops for engineering students!! i5 12th gen just ₹18,999. limited stock. call shree computers, shivaji nagar 📞 90000 54321 shree computers">
+  <header>
+    <span class="id">#40</span>
+    <span class="badge spam">spam</span>
+    <span class="conf" title="Clef confidence">conf 0.87</span>
+    <span class="meta">Shree Computers · General · 2026-10-15 12:30</span>
+  </header>
+  <p class="comment">Cheap laptops for engineering students!! i5 12th gen just ₹18,999. Limited stock. Call Shree Computers, Shivaji Nagar 📞 90000 54321</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:2.3%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.1%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:95.6%"></span></span><span class="bv">0.96</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card toxic" data-id="41"
+  data-label="toxic" data-conf="0.5700" data-text="this forum is full of sir&#x27;s chamchas. everybody praising every useless app. fake people. vikram singh">
+  <header>
+    <span class="id">#41</span>
+    <span class="badge toxic">toxic</span>
+    <span class="conf" title="Clef confidence">conf 0.57</span>
+    <span class="meta">Vikram Singh · Share your artifacts · 2026-10-15 13:15</span>
+  </header>
+  <p class="comment">This forum is full of sir&#x27;s chamchas. Everybody praising every useless app. Fake people.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:10.3%"></span></span><span class="bv">0.10</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:83.6%"></span></span><span class="bv">0.84</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:6.1%"></span></span><span class="bv">0.06</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="42"
+  data-label="acceptable" data-conf="0.8724" data-text="i&#x27;m not sure using ai for assignments is actually teaching us anything. i learned more debugging the output than from the tool itself. kunal bhatia">
+  <header>
+    <span class="id">#42</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.87</span>
+    <span class="meta">Kunal Bhatia · General · 2026-10-15 14:00</span>
+  </header>
+  <p class="comment">I&#x27;m not sure using AI for assignments is actually teaching us anything. I learned more debugging the output than from the tool itself.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:95.6%"></span></span><span class="bv">0.96</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.2%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.2%"></span></span><span class="bv">0.02</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="43"
+  data-label="acceptable" data-conf="0.8438" data-text="disagree a bit — knowing what to ask and how to check the output is itself a skill. industry is going this way anyway. siddharth rao">
+  <header>
+    <span class="id">#43</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.84</span>
+    <span class="meta">Siddharth Rao · General · 2026-10-15 14:22</span>
+  </header>
+  <p class="comment">Disagree a bit — knowing what to ask and how to check the output is itself a skill. Industry is going this way anyway.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.6%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.8%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.6%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="44"
+  data-label="acceptable" data-conf="0.8264" data-text="my codex output used a deprecated pandas function (append). fixed it with concat. posting in case anyone else hits the same error. vivek menon">
+  <header>
+    <span class="id">#44</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.83</span>
+    <span class="meta">Vivek Menon · Doubts · 2026-10-15 16:35</span>
+  </header>
+  <p class="comment">My Codex output used a deprecated pandas function (append). Fixed it with concat. Posting in case anyone else hits the same error.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.9%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.9%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.2%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="45"
+  data-label="acceptable" data-conf="0.8664" data-text="thanks vivek, was stuck on exactly this for an hour 🙏 tanvi gupta">
+  <header>
+    <span class="id">#45</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.87</span>
+    <span class="meta">Tanvi Gupta · Doubts · 2026-10-15 16:50</span>
+  </header>
+  <p class="comment">Thanks Vivek, was stuck on exactly this for an hour 🙏</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:95.4%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:1.6%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.1%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card spam" data-id="46"
+  data-label="spam" data-conf="0.9132" data-text="💰 crypto signals group 💰 90% accuracy, students making ₹50k/month. join fast before closing: bit.ly/crypto-signal-vip cryptoking official">
+  <header>
+    <span class="id">#46</span>
+    <span class="badge spam">spam</span>
+    <span class="conf" title="Clef confidence">conf 0.91</span>
+    <span class="meta">CryptoKing Official · General · 2026-10-15 18:00</span>
+  </header>
+  <p class="comment">💰 Crypto signals group 💰 90% accuracy, students making ₹50k/month. Join fast before closing: bit.ly/crypto-signal-vip</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:1.4%"></span></span><span class="bv">0.01</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:1.6%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:97.0%"></span></span><span class="bv">0.97</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="47"
+  data-label="acceptable" data-conf="0.7755" data-text="ma&#x27;am, will the marks be uploaded before the diwali break? mohd. faizan">
+  <header>
+    <span class="id">#47</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.78</span>
+    <span class="meta">Mohd. Faizan · Submission &amp; grading · 2026-10-16 09:10</span>
+  </header>
+  <p class="comment">Ma&#x27;am, will the marks be uploaded before the Diwali break?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:92.0%"></span></span><span class="bv">0.92</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:4.0%"></span></span><span class="bv">0.04</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.9%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card toxic" data-id="48"
+  data-label="toxic" data-conf="0.7384" data-text="whoever gave my project 2/10 in peer review, you&#x27;re a jealous loser. i know who you are and i&#x27;ll see you outside the lab. deepak mishra">
+  <header>
+    <span class="id">#48</span>
+    <span class="badge toxic">toxic</span>
+    <span class="conf" title="Clef confidence">conf 0.74</span>
+    <span class="meta">Deepak Mishra · Submission &amp; grading · 2026-10-16 10:25</span>
+  </header>
+  <p class="comment">Whoever gave my project 2/10 in peer review, you&#x27;re a jealous loser. I know who you are and I&#x27;ll see you outside the lab.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:6.0%"></span></span><span class="bv">0.06</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:90.6%"></span></span><span class="bv">0.91</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.4%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="49"
+  data-label="acceptable" data-conf="0.7930" data-text="peer review feedback was helpful, thanks to whoever pointed out the mobile layout breaking. fixed it. kavya pillai">
+  <header>
+    <span class="id">#49</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.79</span>
+    <span class="meta">Kavya Pillai · Submission &amp; grading · 2026-10-16 11:00</span>
+  </header>
+  <p class="comment">Peer review feedback was helpful, thanks to whoever pointed out the mobile layout breaking. Fixed it.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:92.7%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.6%"></span></span><span class="bv">0.04</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.7%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="50"
+  data-label="acceptable" data-conf="0.7909" data-text="can someone explain what &quot;artifact&quot; means here? is it just the code or a deployed thing people can open? riya thomas">
+  <header>
+    <span class="id">#50</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.79</span>
+    <span class="meta">Riya Thomas · Doubts · 2026-10-16 11:40</span>
+  </header>
+  <p class="comment">Can someone explain what &quot;artifact&quot; means here? Is it just the code or a deployed thing people can open?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:92.6%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.9%"></span></span><span class="bv">0.04</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.5%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="51"
+  data-label="acceptable" data-conf="0.7998" data-text="from the pdf: artifact = a working, shareable thing (web page, tool, small app) + a 1-page reflection. code alone isn&#x27;t enough. rakesh m (ta)">
+  <header>
+    <span class="id">#51</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.80</span>
+    <span class="meta">Rakesh M (TA) · Doubts · 2026-10-16 12:05</span>
+  </header>
+  <p class="comment">From the PDF: artifact = a working, shareable thing (web page, tool, small app) + a 1-page reflection. Code alone isn&#x27;t enough.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.0%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.6%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:4.5%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="52"
+  data-label="acceptable" data-conf="0.8170" data-text="built a marathi–english vocabulary flashcard app. claude handled the devanagari fonts without issues, which surprised me. shruti deshpande">
+  <header>
+    <span class="id">#52</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.82</span>
+    <span class="meta">Shruti Deshpande · Share your artifacts · 2026-10-16 14:15</span>
+  </header>
+  <p class="comment">Built a Marathi–English vocabulary flashcard app. Claude handled the Devanagari fonts without issues, which surprised me.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.6%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.9%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.6%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="53"
+  data-label="acceptable" data-conf="0.8495" data-text="nice! does it do audio pronunciation? the browser speech api supports mr-in i think. karthik reddy">
+  <header>
+    <span class="id">#53</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.85</span>
+    <span class="meta">Karthik Reddy · Share your artifacts · 2026-10-16 14:40</span>
+  </header>
+  <p class="comment">Nice! Does it do audio pronunciation? The browser speech API supports mr-IN I think.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.8%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.3%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.9%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card spam" data-id="54"
+  data-label="spam" data-conf="0.9288" data-text="need help with your assignment? our phd experts do python, java, ml, ai projects. fast delivery in 24 hours. visit www.assignmenthelpzone.co.in or mail help@assignmenthelpzone.co.in assignment help zone">
+  <header>
+    <span class="id">#54</span>
+    <span class="badge spam">spam</span>
+    <span class="conf" title="Clef confidence">conf 0.93</span>
+    <span class="meta">Assignment Help Zone · General · 2026-10-16 15:30</span>
+  </header>
+  <p class="comment">Need help with your assignment? Our PhD experts do Python, Java, ML, AI projects. Fast delivery in 24 hours. Visit www.assignmenthelpzone.co.in or mail help@assignmenthelpzone.co.in</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:1.2%"></span></span><span class="bv">0.01</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:1.2%"></span></span><span class="bv">0.01</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:97.6%"></span></span><span class="bv">0.98</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card toxic" data-id="55"
+  data-label="toxic" data-conf="0.5387" data-text="ankit&#x27;s gate quiz app is trash just like his gate score will be 😂😂 saurabh yadav">
+  <header>
+    <span class="id">#55</span>
+    <span class="badge toxic">toxic</span>
+    <span class="conf" title="Clef confidence">conf 0.54</span>
+    <span class="meta">Saurabh Yadav · Share your artifacts · 2026-10-16 16:02</span>
+  </header>
+  <p class="comment">Ankit&#x27;s GATE quiz app is trash just like his GATE score will be 😂😂</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:12.1%"></span></span><span class="bv">0.12</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:82.1%"></span></span><span class="bv">0.82</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:5.7%"></span></span><span class="bv">0.06</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="56"
+  data-label="acceptable" data-conf="0.7974" data-text="request: can the ta share a sample of a good reflection from last year? not sure what level of detail is expected. prateek saxena">
+  <header>
+    <span class="id">#56</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.80</span>
+    <span class="meta">Prateek Saxena · Submission &amp; grading · 2026-10-16 18:20</span>
+  </header>
+  <p class="comment">Request: can the TA share a sample of a good reflection from last year? Not sure what level of detail is expected.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:92.9%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.7%"></span></span><span class="bv">0.04</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.4%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="57"
+  data-label="acceptable" data-conf="0.7906" data-text="sir, i submitted the wrong link by mistake (my old repo). can you allow a resubmission? aman tiwari">
+  <header>
+    <span class="id">#57</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.79</span>
+    <span class="meta">Aman Tiwari · Submission &amp; grading · 2026-10-16 22:45</span>
+  </header>
+  <p class="comment">Sir, I submitted the wrong link by mistake (my old repo). Can you allow a resubmission?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:92.6%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.9%"></span></span><span class="bv">0.04</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.5%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="58"
+  data-label="acceptable" data-conf="0.8334" data-text="is it fine if our artifact uses a free public api (like weather)? or should everything be self-contained? riya thomas">
+  <header>
+    <span class="id">#58</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.83</span>
+    <span class="meta">Riya Thomas · Doubts · 2026-10-17 09:00</span>
+  </header>
+  <p class="comment">Is it fine if our artifact uses a free public API (like weather)? Or should everything be self-contained?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.2%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.0%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.8%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="59"
+  data-label="acceptable" data-conf="0.8123" data-text="my experience: claude is better at explaining, codex felt faster for refactoring. both hallucinated a library function once. meera krishnan">
+  <header>
+    <span class="id">#59</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.81</span>
+    <span class="meta">Meera Krishnan · General · 2026-10-17 10:30</span>
+  </header>
+  <p class="comment">My experience: Claude is better at explaining, Codex felt faster for refactoring. Both hallucinated a library function once.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.4%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.7%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.9%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="60"
+  data-label="acceptable" data-conf="0.8238" data-text="agree. codex invented a &quot;pd.read_html_table&quot; function for me 😂 always run the code. nikhil bansal">
+  <header>
+    <span class="id">#60</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.82</span>
+    <span class="meta">Nikhil Bansal · General · 2026-10-17 10:52</span>
+  </header>
+  <p class="comment">Agree. Codex invented a &quot;pd.read_html_table&quot; function for me 😂 Always run the code.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.8%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.6%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.5%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card toxic" data-id="61"
+  data-label="toxic" data-conf="0.7466" data-text="shut up meera, nobody cares about your &quot;experience&quot;. topper behaviour as usual 🙄 rahul chauhan">
+  <header>
+    <span class="id">#61</span>
+    <span class="badge toxic">toxic</span>
+    <span class="conf" title="Clef confidence">conf 0.75</span>
+    <span class="meta">Rahul Chauhan · General · 2026-10-17 11:10</span>
+  </header>
+  <p class="comment">Shut up Meera, nobody cares about your &quot;experience&quot;. Topper behaviour as usual 🙄</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:5.5%"></span></span><span class="bv">0.06</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:90.9%"></span></span><span class="bv">0.91</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.5%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="62"
+  data-label="acceptable" data-conf="0.7963" data-text="our hostel group made an attendance tracker for the mess. uploaded screenshots to the drive folder as instructed. omkar jadhav">
+  <header>
+    <span class="id">#62</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.80</span>
+    <span class="meta">Omkar Jadhav · Share your artifacts · 2026-10-17 12:40</span>
+  </header>
+  <p class="comment">Our hostel group made an attendance tracker for the mess. Uploaded screenshots to the drive folder as instructed.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:92.8%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.2%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.9%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card spam" data-id="63"
+  data-label="spam" data-conf="0.8821" data-text="hello dear friends, i am selling original notes of all subjects 3rd year cse. pdf available at low price. contact on instagram @notes.wala.bhaiya notes wala bhaiya">
+  <header>
+    <span class="id">#63</span>
+    <span class="badge spam">spam</span>
+    <span class="conf" title="Clef confidence">conf 0.88</span>
+    <span class="meta">Notes Wala Bhaiya · General · 2026-10-17 13:30</span>
+  </header>
+  <p class="comment">Hello dear friends, I am selling original notes of all subjects 3rd year CSE. PDF available at low price. Contact on Instagram @notes.wala.bhaiya</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:2.0%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.1%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:96.0%"></span></span><span class="bv">0.96</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="64"
+  data-label="acceptable" data-conf="0.8112" data-text="ma&#x27;am, our artifact is for visually impaired users (screen-reader friendly bus timings). can we get extra time to test it with actual users from the ngo? arjun das">
+  <header>
+    <span class="id">#64</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.81</span>
+    <span class="meta">Arjun Das · Submission &amp; grading · 2026-10-17 15:05</span>
+  </header>
+  <p class="comment">Ma&#x27;am, our artifact is for visually impaired users (screen-reader friendly bus timings). Can we get extra time to test it with actual users from the NGO?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.4%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.2%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.4%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="65"
+  data-label="acceptable" data-conf="0.7811" data-text="that&#x27;s a great project, arjun. happy to help test with nvda if you need another tester. neha kapoor">
+  <header>
+    <span class="id">#65</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.78</span>
+    <span class="meta">Neha Kapoor · Submission &amp; grading · 2026-10-17 15:30</span>
+  </header>
+  <p class="comment">That&#x27;s a great project, Arjun. Happy to help test with NVDA if you need another tester.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:92.2%"></span></span><span class="bv">0.92</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.1%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:4.6%"></span></span><span class="bv">0.05</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="66"
+  data-label="acceptable" data-conf="0.8147" data-text="kya reflection hindi mein likh sakte hain? my english writing is not that good but i can explain properly in hindi. sonu kumar">
+  <header>
+    <span class="id">#66</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.81</span>
+    <span class="meta">Sonu Kumar · Doubts · 2026-10-17 17:10</span>
+  </header>
+  <p class="comment">Kya reflection Hindi mein likh sakte hain? My English writing is not that good but I can explain properly in Hindi.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.5%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.2%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.3%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="67"
+  data-label="acceptable" data-conf="0.8425" data-text="the rubric weightage is unclear. 40% artifact, 40% reflection, 20% viva — is that correct? the slides said something different. ishita banerjee">
+  <header>
+    <span class="id">#67</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.84</span>
+    <span class="meta">Ishita Banerjee · Submission &amp; grading · 2026-10-18 09:25</span>
+  </header>
+  <p class="comment">The rubric weightage is unclear. 40% artifact, 40% reflection, 20% viva — is that correct? The slides said something different.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.5%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.7%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.7%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="68"
+  data-label="acceptable" data-conf="0.8170" data-text="the grading for assignment 2 was unfair in my opinion, the same output got different marks in different batches. please clarify the re-evaluation process. ritika sen">
+  <header>
+    <span class="id">#68</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.82</span>
+    <span class="meta">Ritika Sen · Submission &amp; grading · 2026-10-18 10:00</span>
+  </header>
+  <p class="comment">The grading for assignment 2 was unfair in my opinion, the same output got different marks in different batches. Please clarify the re-evaluation process.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.6%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.2%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.2%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="69"
+  data-label="acceptable" data-conf="0.6671" data-text="ta doesn&#x27;t know anything himself, how will he grade ai projects? clueless fellow should go back to school. vikram singh">
+  <header>
+    <span class="id">#69</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.67</span>
+    <span class="meta">Vikram Singh · Submission &amp; grading · 2026-10-18 10:22</span>
+  </header>
+  <p class="comment">TA doesn&#x27;t know anything himself, how will he grade AI projects? Clueless fellow should go back to school.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:87.6%"></span></span><span class="bv">0.88</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:9.6%"></span></span><span class="bv">0.10</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.8%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="70"
+  data-label="acceptable" data-conf="0.7712" data-text="tip for anyone using claude artifacts: ask it to add a &quot;reset data&quot; button. saved me during the demo when the test data got messed up. harsh agarwal">
+  <header>
+    <span class="id">#70</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.77</span>
+    <span class="meta">Harsh Agarwal · Doubts · 2026-10-18 12:15</span>
+  </header>
+  <p class="comment">Tip for anyone using Claude artifacts: ask it to add a &quot;reset data&quot; button. Saved me during the demo when the test data got messed up.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:91.9%"></span></span><span class="bv">0.92</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.7%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:5.5%"></span></span><span class="bv">0.05</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card spam" data-id="71"
+  data-label="spam" data-conf="0.8600" data-text="free iphone 17 giveaway for college students 🎉 just fill the form with your name, college id and aadhaar number: forms-giveaway-india.com/iphone giveaway india">
+  <header>
+    <span class="id">#71</span>
+    <span class="badge spam">spam</span>
+    <span class="conf" title="Clef confidence">conf 0.86</span>
+    <span class="meta">Giveaway India · General · 2026-10-18 13:00</span>
+  </header>
+  <p class="comment">FREE iPhone 17 giveaway for college students 🎉 Just fill the form with your name, college ID and Aadhaar number: forms-giveaway-india.com/iphone</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:2.5%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.4%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:95.2%"></span></span><span class="bv">0.95</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="72"
+  data-label="acceptable" data-conf="0.7902" data-text="our team used codex to convert old c++ lab programs into a small web visualizer for sorting algorithms. feedback welcome! gaurav pandey">
+  <header>
+    <span class="id">#72</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.79</span>
+    <span class="meta">Gaurav Pandey · Share your artifacts · 2026-10-18 15:45</span>
+  </header>
+  <p class="comment">Our team used Codex to convert old C++ lab programs into a small web visualizer for sorting algorithms. Feedback welcome!</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:92.6%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.6%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:4.8%"></span></span><span class="bv">0.05</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="73"
+  data-label="acceptable" data-conf="0.8626" data-text="very nice, but the bubble sort animation is too fast to follow. maybe add a speed slider? shruti deshpande">
+  <header>
+    <span class="id">#73</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.86</span>
+    <span class="meta">Shruti Deshpande · Share your artifacts · 2026-10-18 16:10</span>
+  </header>
+  <p class="comment">Very nice, but the bubble sort animation is too fast to follow. Maybe add a speed slider?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:95.2%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.4%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.4%"></span></span><span class="bv">0.02</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="74"
+  data-label="acceptable" data-conf="0.8455" data-text="is there a word limit for the reflection? i wrote 1100 words, feels too long. tanvi gupta">
+  <header>
+    <span class="id">#74</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.85</span>
+    <span class="meta">Tanvi Gupta · Doubts · 2026-10-18 18:30</span>
+  </header>
+  <p class="comment">Is there a word limit for the reflection? I wrote 1100 words, feels too long.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.6%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.9%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.5%"></span></span><span class="bv">0.02</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="75"
+  data-label="acceptable" data-conf="0.7873" data-text="ma&#x27;am said max 1 page, so around 500 words. pooja nair">
+  <header>
+    <span class="id">#75</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.79</span>
+    <span class="meta">Pooja Nair · Doubts · 2026-10-18 18:45</span>
+  </header>
+  <p class="comment">Ma&#x27;am said max 1 page, so around 500 words.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:92.5%"></span></span><span class="bv">0.92</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.3%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:4.2%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable low" data-id="76"
+  data-label="acceptable" data-conf="0.2970" data-text="everyone from that side of the hostel copies, it&#x27;s in their blood. don&#x27;t trust their &quot;original&quot; projects. deepak mishra">
+  <header>
+    <span class="id">#76</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.30 · check</span>
+    <span class="meta">Deepak Mishra · Share your artifacts · 2026-10-19 09:10</span>
+  </header>
+  <p class="comment">Everyone from that side of the hostel copies, it&#x27;s in their blood. Don&#x27;t trust their &quot;original&quot; projects.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:69.7%"></span></span><span class="bv">0.70</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:15.5%"></span></span><span class="bv">0.15</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:14.8%"></span></span><span class="bv">0.15</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="77"
+  data-label="acceptable" data-conf="0.8211" data-text="sir, what happens if our deployed link stops working after submission (free hosting expires)? will we lose marks? gaurav pandey">
+  <header>
+    <span class="id">#77</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.82</span>
+    <span class="meta">Gaurav Pandey · Submission &amp; grading · 2026-10-19 10:30</span>
+  </header>
+  <p class="comment">Sir, what happens if our deployed link stops working after submission (free hosting expires)? Will we lose marks?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.7%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.3%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.9%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="78"
+  data-label="acceptable" data-conf="0.8401" data-text="i shared a short screen recording as a backup in case the link fails. maybe others should do the same. kavya pillai">
+  <header>
+    <span class="id">#78</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.84</span>
+    <span class="meta">Kavya Pillai · Submission &amp; grading · 2026-10-19 10:50</span>
+  </header>
+  <p class="comment">I shared a short screen recording as a backup in case the link fails. Maybe others should do the same.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.4%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.4%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.1%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card spam" data-id="79"
+  data-label="spam" data-conf="0.9120" data-text="👉 get 10,000 instagram followers in 1 day 👈 real &amp; active. best for students starting tech pages. whatsapp 90000 67890 instagrowth services">
+  <header>
+    <span class="id">#79</span>
+    <span class="badge spam">spam</span>
+    <span class="conf" title="Clef confidence">conf 0.91</span>
+    <span class="meta">InstaGrowth Services · General · 2026-10-19 12:00</span>
+  </header>
+  <p class="comment">👉 Get 10,000 Instagram followers in 1 day 👈 Real &amp; active. Best for students starting tech pages. WhatsApp 90000 67890</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:1.5%"></span></span><span class="bv">0.01</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:1.5%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:97.0%"></span></span><span class="bv">0.97</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="80"
+  data-label="acceptable" data-conf="0.8313" data-text="i&#x27;m struggling honestly. everyone is posting cool apps and mine barely works. is it okay to submit something simple if the reflection is honest? kunal bhatia">
+  <header>
+    <span class="id">#80</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.83</span>
+    <span class="meta">Kunal Bhatia · General · 2026-10-19 21:40</span>
+  </header>
+  <p class="comment">I&#x27;m struggling honestly. Everyone is posting cool apps and mine barely works. Is it okay to submit something simple if the reflection is honest?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.1%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.1%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.8%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="81"
+  data-label="acceptable" data-conf="0.8160" data-text="absolutely okay. sir said in class that the reflection about what failed counts a lot. don&#x27;t stress, simple + honest &gt; fancy + copied. neha kapoor">
+  <header>
+    <span class="id">#81</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.82</span>
+    <span class="meta">Neha Kapoor · General · 2026-10-19 22:05</span>
+  </header>
+  <p class="comment">Absolutely okay. Sir said in class that the reflection about what failed counts a lot. Don&#x27;t stress, simple + honest &gt; fancy + copied.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.6%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.1%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.4%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="82"
+  data-label="acceptable" data-conf="0.8915" data-text="thank you neha, that really helps 🙂 kunal bhatia">
+  <header>
+    <span class="id">#82</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.89</span>
+    <span class="meta">Kunal Bhatia · General · 2026-10-19 22:20</span>
+  </header>
+  <p class="comment">Thank you Neha, that really helps 🙂</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:96.3%"></span></span><span class="bv">0.96</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:1.0%"></span></span><span class="bv">0.01</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.7%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="83"
+  data-label="acceptable" data-conf="0.5255" data-text="lol kunal still crying about his project. maybe engineering isn&#x27;t for you bro, try ba. saurabh yadav">
+  <header>
+    <span class="id">#83</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.53</span>
+    <span class="meta">Saurabh Yadav · General · 2026-10-19 22:48</span>
+  </header>
+  <p class="comment">lol Kunal still crying about his project. Maybe engineering isn&#x27;t for you bro, try BA.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:81.2%"></span></span><span class="bv">0.81</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:15.2%"></span></span><span class="bv">0.15</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.6%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="84"
+  data-label="acceptable" data-conf="0.8087" data-text="doubt: claude gave different code for the same prompt twice. which one should we submit, and should we mention it? sonu kumar">
+  <header>
+    <span class="id">#84</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.81</span>
+    <span class="meta">Sonu Kumar · Doubts · 2026-10-20 09:30</span>
+  </header>
+  <p class="comment">Doubt: Claude gave different code for the same prompt twice. Which one should we submit, and should we mention it?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.3%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.4%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.3%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="85"
+  data-label="acceptable" data-conf="0.8206" data-text="submit the one you tested and understand. mentioning the variation in your reflection is actually a good insight. meera krishnan">
+  <header>
+    <span class="id">#85</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.82</span>
+    <span class="meta">Meera Krishnan · Doubts · 2026-10-20 09:55</span>
+  </header>
+  <p class="comment">Submit the one you tested and understand. Mentioning the variation in your reflection is actually a good insight.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.7%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.9%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.4%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card spam" data-id="86"
+  data-label="spam" data-conf="0.8663" data-text="part time job for students: typing work, ₹800/day, no target. registration fee only ₹299. reply &quot;interested&quot; with your number. work from home jobs">
+  <header>
+    <span class="id">#86</span>
+    <span class="badge spam">spam</span>
+    <span class="conf" title="Clef confidence">conf 0.87</span>
+    <span class="meta">Work From Home Jobs · General · 2026-10-20 11:00</span>
+  </header>
+  <p class="comment">Part time job for students: typing work, ₹800/day, no target. Registration fee only ₹299. Reply &quot;INTERESTED&quot; with your number.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:2.6%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.1%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:95.4%"></span></span><span class="bv">0.95</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="87"
+  data-label="acceptable" data-conf="0.8137" data-text="can we work on an existing personal project and extend it with ai, or must it be new? aditya kulkarni">
+  <header>
+    <span class="id">#87</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.81</span>
+    <span class="meta">Aditya Kulkarni · Doubts · 2026-10-20 12:20</span>
+  </header>
+  <p class="comment">Can we work on an existing personal project and extend it with AI, or must it be new?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.5%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.3%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.2%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="88"
+  data-label="acceptable" data-conf="0.8499" data-text="ankit, sorry for that comment about your app and your gate score, it was uncalled for. the app is actually good, just that one bug. saurabh yadav">
+  <header>
+    <span class="id">#88</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.85</span>
+    <span class="meta">Saurabh Yadav · Share your artifacts · 2026-10-20 13:10</span>
+  </header>
+  <p class="comment">Ankit, sorry for that comment about your app and your GATE score, it was uncalled for. The app is actually good, just that one bug.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.8%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.7%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.5%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="89"
+  data-label="acceptable" data-conf="0.6890" data-text="our college fest registration form artifact is live, please test and break it before friday 🙏 ishita banerjee">
+  <header>
+    <span class="id">#89</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.69</span>
+    <span class="meta">Ishita Banerjee · Share your artifacts · 2026-10-20 16:00</span>
+  </header>
+  <p class="comment">Our college fest registration form artifact is live, please test and break it before Friday 🙏</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:88.6%"></span></span><span class="bv">0.89</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.9%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:8.6%"></span></span><span class="bv">0.09</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="90"
+  data-label="acceptable" data-conf="0.8688" data-text="found a bug: entering an emoji in the name field crashes the confirmation page. 😅 riya thomas">
+  <header>
+    <span class="id">#90</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.87</span>
+    <span class="meta">Riya Thomas · Share your artifacts · 2026-10-20 16:35</span>
+  </header>
+  <p class="comment">Found a bug: entering an emoji in the name field crashes the confirmation page. 😅</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:95.5%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:1.7%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.9%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card toxic low" data-id="91"
+  data-label="toxic" data-conf="0.3587" data-text="who made this garbage form? typical mechanical branch people trying to code. stick to your lathe machines 😂 vikram singh">
+  <header>
+    <span class="id">#91</span>
+    <span class="badge toxic">toxic</span>
+    <span class="conf" title="Clef confidence">conf 0.36 · check</span>
+    <span class="meta">Vikram Singh · Share your artifacts · 2026-10-20 17:02</span>
+  </header>
+  <p class="comment">Who made this garbage form? Typical mechanical branch people trying to code. Stick to your lathe machines 😂</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:22.8%"></span></span><span class="bv">0.23</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:72.0%"></span></span><span class="bv">0.72</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:5.3%"></span></span><span class="bv">0.05</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="92"
+  data-label="acceptable" data-conf="0.8210" data-text="does using ai-generated images in the artifact need attribution too? shruti deshpande">
+  <header>
+    <span class="id">#92</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.82</span>
+    <span class="meta">Shruti Deshpande · Doubts · 2026-10-21 10:10</span>
+  </header>
+  <p class="comment">Does using AI-generated images in the artifact need attribution too?</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.7%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.1%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.1%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="93"
+  data-label="acceptable" data-conf="0.8445" data-text="will there be a session on how to evaluate ai-generated code for security issues? seems important for the next assignment. siddharth rao">
+  <header>
+    <span class="id">#93</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.84</span>
+    <span class="meta">Siddharth Rao · General · 2026-10-21 11:30</span>
+  </header>
+  <p class="comment">Will there be a session on how to evaluate AI-generated code for security issues? Seems important for the next assignment.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.6%"></span></span><span class="bv">0.95</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:2.8%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.6%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card spam" data-id="94"
+  data-label="spam" data-conf="0.9167" data-text="cs307 complete solved assignments + viva answers available!! 100% working code. dm on telegram @cs307_solutions_hub. pay after delivery. cs307_solutions">
+  <header>
+    <span class="id">#94</span>
+    <span class="badge spam">spam</span>
+    <span class="conf" title="Clef confidence">conf 0.92</span>
+    <span class="meta">cs307_solutions · General · 2026-10-21 12:00</span>
+  </header>
+  <p class="comment">CS307 complete solved assignments + viva answers available!! 100% working code. DM on telegram @cs307_solutions_hub. Pay after delivery.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:1.5%"></span></span><span class="bv">0.01</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:1.4%"></span></span><span class="bv">0.01</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:97.2%"></span></span><span class="bv">0.97</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="95"
+  data-label="acceptable" data-conf="0.8327" data-text="sir, please consider allowing pair submissions next time, 4-member groups are hard to coordinate. ritika sen">
+  <header>
+    <span class="id">#95</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.83</span>
+    <span class="meta">Ritika Sen · General · 2026-10-21 14:15</span>
+  </header>
+  <p class="comment">Sir, please consider allowing pair submissions next time, 4-member groups are hard to coordinate.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:94.2%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.0%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:2.9%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="96"
+  data-label="acceptable" data-conf="0.8182" data-text="finally submitted at 11:57 pm 😂 never doing last-minute again (i say this every semester). omkar jadhav">
+  <header>
+    <span class="id">#96</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.82</span>
+    <span class="meta">Omkar Jadhav · Submission &amp; grading · 2026-10-21 23:58</span>
+  </header>
+  <p class="comment">Finally submitted at 11:57 PM 😂 Never doing last-minute again (I say this every semester).</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.6%"></span></span><span class="bv">0.94</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.1%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.2%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card toxic" data-id="97"
+  data-label="toxic" data-conf="0.6999" data-text="if you can&#x27;t even set up an api key you shouldn&#x27;t be in cse. stop spamming the forum with your stupid doubts, dumbo. rahul chauhan">
+  <header>
+    <span class="id">#97</span>
+    <span class="badge toxic">toxic</span>
+    <span class="conf" title="Clef confidence">conf 0.70</span>
+    <span class="meta">Rahul Chauhan · Doubts · 2026-10-22 10:05</span>
+  </header>
+  <p class="comment">If you can&#x27;t even set up an API key you shouldn&#x27;t be in CSE. Stop spamming the forum with your stupid doubts, dumbo.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:7.1%"></span></span><span class="bv">0.07</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:89.1%"></span></span><span class="bv">0.89</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.9%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="98"
+  data-label="acceptable" data-conf="0.8130" data-text="thanks to everyone who answered doubts here, this thread was more useful than the lectures honestly 😄 divya hegde">
+  <header>
+    <span class="id">#98</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.81</span>
+    <span class="meta">Divya Hegde · General · 2026-10-22 18:30</span>
+  </header>
+  <p class="comment">Thanks to everyone who answered doubts here, this thread was more useful than the lectures honestly 😄</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:93.4%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.2%"></span></span><span class="bv">0.03</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.4%"></span></span><span class="bv">0.03</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card spam" data-id="99"
+  data-label="spam" data-conf="0.8969" data-text="hey guys check out my startup app, we are giving ₹100 paytm cash for every signup using my referral code raju100 😊 link: refer-n-earn.app/raju100 raju startup">
+  <header>
+    <span class="id">#99</span>
+    <span class="badge spam">spam</span>
+    <span class="conf" title="Clef confidence">conf 0.90</span>
+    <span class="meta">Raju Startup · General · 2026-10-23 12:00</span>
+  </header>
+  <p class="comment">Hey guys check out my startup app, we are giving ₹100 Paytm cash for every signup using my referral code RAJU100 😊 Link: refer-n-earn.app/RAJU100</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:1.8%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:1.7%"></span></span><span class="bv">0.02</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:96.5%"></span></span><span class="bv">0.96</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article>
+<article class="card acceptable" data-id="100"
+  data-label="acceptable" data-conf="0.7991" data-text="ma&#x27;am, any update on when the next assignment will be released? want to plan around mid-sems. shreya patil">
+  <header>
+    <span class="id">#100</span>
+    <span class="badge acceptable">acceptable</span>
+    <span class="conf" title="Clef confidence">conf 0.80</span>
+    <span class="meta">Shreya Patil · General · 2026-10-25 10:40</span>
+  </header>
+  <p class="comment">Ma&#x27;am, any update on when the next assignment will be released? Want to plan around mid-sems.</p>
+  <div class="bars"><div class="bar"><span class="bl">acceptable</span><span class="track"><span class="fill acceptable" style="width:92.9%"></span></span><span class="bv">0.93</span></div><div class="bar"><span class="bl">toxic</span><span class="track"><span class="fill toxic" style="width:3.5%"></span></span><span class="bv">0.04</span></div><div class="bar"><span class="bl">spam</span><span class="track"><span class="fill spam" style="width:3.5%"></span></span><span class="bv">0.04</span></div></div>
+  <details class="review">
+    <summary>Disagree with Clef?</summary>
+    <label><input type="checkbox" class="flag"> Clef is wrong / borderline</label>
+    <label>My label <select class="mine"><option value="acceptable">acceptable</option><option value="toxic">toxic</option><option value="spam">spam</option></select></label>
+    <label><input type="checkbox" class="borderline"> borderline</label>
+    <textarea class="why" placeholder="Why (1–2 sentences, in your own words)"></textarea>
+  </details>
+</article></main>
+</div>
+<script>
+const KEY = "clef-review-comments";
+const list = document.getElementById("list");
+const cards = [...list.querySelectorAll(".card")];
+let filter = "all";
+function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
+function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
+const state = load();
+cards.forEach(c => {
+  const id = c.dataset.id, s = state[id] || {};
+  const f = c.querySelector(".flag"), m = c.querySelector(".mine"), b = c.querySelector(".borderline"), w = c.querySelector(".why");
+  m.value = s.mine || c.dataset.label; f.checked = !!s.flag; b.checked = !!s.borderline; w.value = s.why || "";
+  if (s.flag) { c.classList.add("flagged"); c.querySelector("details").open = true; }
+  const upd = () => { state[id] = {flag: f.checked, mine: m.value, borderline: b.checked, why: w.value};
+    c.classList.toggle("flagged", f.checked); save(state); };
+  [f, m, b].forEach(el => el.addEventListener("change", upd)); w.addEventListener("input", upd);
+  m.addEventListener("change", () => { if (m.value !== c.dataset.label) { f.checked = true; upd(); } });
+});
+function apply() {
+  const q = document.getElementById("q").value.toLowerCase();
+  cards.forEach(c => {
+    const ok = (filter === "all" || c.dataset.label === filter ||
+      (filter === "low" && c.classList.contains("low")) || (filter === "flagged" && c.classList.contains("flagged")))
+      && (!q || c.dataset.text.includes(q));
+    c.style.display = ok ? "" : "none";
+  });
+}
+document.querySelectorAll("[data-f]").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll("[data-f]").forEach(x => x.classList.remove("on")); b.classList.add("on");
+  filter = b.dataset.f; apply(); }));
+document.getElementById("q").addEventListener("input", apply);
+document.getElementById("sort").addEventListener("change", e => {
+  const by = e.target.value;
+  [...cards].sort((a, b) => by === "conf" ? a.dataset.conf - b.dataset.conf : a.dataset.id - b.dataset.id)
+    .forEach(c => list.appendChild(c)); });
+document.getElementById("export").addEventListener("click", () => {
+  const rows = cards.filter(c => c.classList.contains("flagged")).map(c => {
+    const s = state[c.dataset.id] || {};
+    return `## Comment ${c.dataset.id}${s.borderline ? " (borderline)" : ""}\n\n` +
+      `- **Clef:** ${c.dataset.label}\n- **Correct:** ${s.mine}\n- **Why:** ${(s.why || "").trim()}\n`; });
+  const md = rows.join("\n");
+  const done = () => alert(`Copied ${rows.length} entries as Markdown. Paste them into your MISTAKES file.`);
+  if (navigator.clipboard) navigator.clipboard.writeText(md).then(done, () => prompt("Copy this:", md));
+  else prompt("Copy this:", md);
+});
+</script></body></html>
